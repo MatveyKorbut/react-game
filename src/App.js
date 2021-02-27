@@ -1,12 +1,15 @@
 import './App.css';
+import React, {useState} from 'react';
+
 import Board from './components/Board/Board';
 
 function App() {
-  return (
-    <div className="App">
-      <Board/>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Board
+            />
+        </div>
+    );
 }
 
 export default App;
