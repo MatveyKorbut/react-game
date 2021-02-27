@@ -1,26 +1,26 @@
-export const createBordArray = (height, width) => {
+export const createBordArray = (size) => {
     let board = []
-    for (let x = 0; x < height; x++) {
+    for (let x = 0; x < size; x++) {
         board[x] = [];
-        for (let y = 0; y < width; y++) {
-            board[x].push({x, y})
+        for (let y = 0; y < size; y++) {
+            board[x].push({x, y});
         }
     }
 
     return board;
 }
-export const getRandomBoardPosition = (x, y) => {
+export const getRandomBoardPosition = (size) => {
     return {
-        x: Math.floor((Math.random() * x)),
-        y: Math.floor((Math.random() * y))
+        x: Math.floor((Math.random() * size)),
+        y: Math.floor((Math.random() * size))
     }
 }
 
-export const getCenterOfBoard = (x, y) => {
+export const getCenterOfBoard = (size) => {
 
     return {
-        x: Math.floor((x - 1) / 2),
-        y: Math.floor((y - 1) / 2),
+        x: Math.floor((size - 1) / 2),
+        y: Math.floor((size - 1) / 2),
     }
 }
 
