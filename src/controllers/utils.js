@@ -6,7 +6,6 @@ export const createBordArray = (size) => {
             board[x].push({x, y});
         }
     }
-
     return board;
 }
 export const getRandomBoardPosition = (size) => {
@@ -17,7 +16,6 @@ export const getRandomBoardPosition = (size) => {
 }
 
 export const getCenterOfBoard = (size) => {
-
     return {
         x: Math.floor((size - 1) / 2),
         y: Math.floor((size - 1) / 2),
