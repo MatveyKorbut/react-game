@@ -7,6 +7,10 @@ import {
 } from '../../controllers/utils';
 
 
+import eatSound from '../../assets/sounds/SFX_Jump_12.wav';
+import loseSound from '../../assets/sounds/lose.wav';
+
+
 const Board = ({score, setScore, setLength, start, setGameOver, foodType}) => {
 
     const boardSize = {x:10, y: 20};
@@ -48,7 +52,8 @@ const Board = ({score, setScore, setLength, start, setGameOver, foodType}) => {
         if (checkForDuplicates(snake)) {
             console.log("GAME OVER");
             setPlay(false);
-            setGameOver(true)
+            setGameOver(true);
+            playSound(false);
         }
 
     }
@@ -81,6 +86,7 @@ const Board = ({score, setScore, setLength, start, setGameOver, foodType}) => {
 
         if (snake[0].x === food.x && snake[0].y === food.y) { //eat
             setScore(Math.round(newSnake.length * 0.4 + newSnake.length));
+            playSound(true);
             setFood({
                 ...getRandomBoardPosition(snake, boardSize), picture: getFood(foodType)
             })
@@ -137,6 +143,12 @@ const Board = ({score, setScore, setLength, start, setGameOver, foodType}) => {
 
 
         }
+    }
+
+
+    const playSound = (bool) => {
+        const audio = new Audio(bool? eatSound: loseSound);
+        audio.play();
     }
 
     useEffect(() => {
