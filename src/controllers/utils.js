@@ -1,3 +1,8 @@
+export const FRUITS = ["🍑", "🍎", "🍏", "🍐", "🍓", "🥝"];
+export const PEOPLE = ["👶", "👧", "🧒", "👦", "👩", "🧑"];
+export const ANIMALS = ["🐶", "🐱", "🐹", "🦊", "🐻", "🐢"];
+
+
 export const createBordArray = (size) => {
     let board = []
     for (let x = 0; x < size.x; x++) {
@@ -15,8 +20,8 @@ export const getRandomBoardPosition = (arr, size) => {
         y: Math.floor((Math.random() * size.y))
     }
 
-    if (arr.find(el=> el.x === food.x && el.y === food.y)) {
-      return getRandomBoardPosition(arr, size)
+    if (arr.find(el => el.x === food.x && el.y === food.y)) {
+        return getRandomBoardPosition(arr, size)
     } else {
         return food;
     }
@@ -29,9 +34,16 @@ export const getCenterOfBoard = (size) => {
     }
 }
 
-export const getFruit = () => {
-    const FRUITS = ["🍑", "🍎", "🍏", "🍐", "🍓", "🥝"];
-    return FRUITS[Math.floor(Math.random() * FRUITS.length)];
+export const getFood = (foodType) => {
+    let type = FRUITS;
+    if (foodType === 'ANIMALS') {
+        type = ANIMALS;
+    }
+    if (foodType === 'PEOPLE') {
+        type = PEOPLE;
+    }
+    return type[Math.floor(Math.random() * FRUITS.length)];
+
 }
 
 export const checkForDuplicates = (array) => {
@@ -48,10 +60,10 @@ export const checkForDuplicates = (array) => {
 export const allowDirection = (currentDirection, newDirection) => {
     let allow = false;
     if (currentDirection === 'up' || currentDirection === 'down') {
-        allow =  newDirection === 'left' || newDirection === 'right';
+        allow = newDirection === 'left' || newDirection === 'right';
     }
     if (currentDirection === 'left' || currentDirection === 'right') {
-        allow =  newDirection === 'up' || newDirection === 'down';
+        allow = newDirection === 'up' || newDirection === 'down';
     }
     return allow
- }
+}

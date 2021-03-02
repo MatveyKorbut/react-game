@@ -3,22 +3,22 @@ import './style.css';
 import {
     allowDirection,
     checkForDuplicates,
-    createBordArray, getCenterOfBoard, getFruit, getRandomBoardPosition,
+    createBordArray, getCenterOfBoard, getFood, getRandomBoardPosition,
 } from '../../controllers/utils';
 
 
-const Board = ({score, setScore, setLength}) => {
+const Board = ({score, setScore, setLength, start, setGameOver, foodType}) => {
 
     const boardSize = {x:10, y: 20};
     const [board, setBoard] = useState(createBordArray(boardSize));
     const [snake, setSnake] = useState([{...getCenterOfBoard(boardSize), isHead: true}]);
     const [snakeDirection, setSnakeDirection] = useState('');
 
-    const [moveDirection, setMoveDirection] = useState('');
-    const [play, setPlay] = useState(false);
+    const [play, setPlay] = useState(start);
+
 
     const [food, setFood] = useState({
-        ...getRandomBoardPosition(snake, boardSize), picture: getFruit()
+        ...getRandomBoardPosition(snake, boardSize), picture: getFood(foodType)
     })
 
     const createSnake = () => {
@@ -48,6 +48,7 @@ const Board = ({score, setScore, setLength}) => {
         if (checkForDuplicates(snake)) {
             console.log("GAME OVER");
             setPlay(false);
+            setGameOver(true)
         }
 
     }
@@ -79,9 +80,9 @@ const Board = ({score, setScore, setLength}) => {
         })
 
         if (snake[0].x === food.x && snake[0].y === food.y) { //eat
-            setScore(score+1);
+            setScore(Math.round(newSnake.length * 0.4 + newSnake.length));
             setFood({
-                ...getRandomBoardPosition(snake, boardSize), picture: getFruit()
+                ...getRandomBoardPosition(snake, boardSize), picture: getFood(foodType)
             })
         } else {
             newSnake.pop();
@@ -148,11 +149,6 @@ const Board = ({score, setScore, setLength}) => {
 
     return (
         <div>
-            <button onClick={() => {
-                setPlay(!play);
-            }}>
-                play
-            </button>
             <div className={"board"}>
                 {
                     board.map((row, idx) =>
