@@ -13,10 +13,12 @@ import loseSound from '../../assets/sounds/lose.wav';
 
 const Board = ({score, setScore, setLength, start, setGameOver, foodType}) => {
 
-    const boardSize = {x:10, y: 20};
+    const boardSize = {x: 10, y: 20};
     const [board, setBoard] = useState(createBordArray(boardSize));
     const [snake, setSnake] = useState([{...getCenterOfBoard(boardSize), isHead: true}]);
     const [snakeDirection, setSnakeDirection] = useState('');
+
+    const [test,setTest] = useState();
 
     const [play, setPlay] = useState(start);
 
@@ -118,45 +120,62 @@ const Board = ({score, setScore, setLength, start, setGameOver, foodType}) => {
 
 
     const changeSnakeDirection = (e) => {
+        console.log('snakeDirection ',snakeDirection)
         const {keyCode} = e;
         if (keyCode) {
             switch (keyCode) {
                 case 87: {
-                    setSnakeDirection('up');
+                    if (snakeDirection !== 'down') {
+                        setSnakeDirection('up');
+                        break;
+                    }
                     break;
                 }
                 case 83: {
-                    setSnakeDirection('down');
+                    if (snakeDirection !== 'up') {
+                        setSnakeDirection('down');
+                        break;
+                    }
                     break;
                 }
                 case 65: {
-                    setSnakeDirection('left');
+                    if (snakeDirection !== 'right') {
+
+                        setSnakeDirection('left');
+                        break;
+                    }
                     break;
+
                 }
                 case 68: {
-                    setSnakeDirection('right');
+                    if (snakeDirection !== 'left') {
+                        setSnakeDirection('right');
+                        break;
+                    }
                     break;
                 }
                 default:
                     break;
             }
-
-
         }
+        console.log('snakeDirection ',snakeDirection)
+
     }
 
 
     const playSound = (bool) => {
-        const audio = new Audio(bool? eatSound: loseSound);
+        const audio = new Audio(bool ? eatSound : loseSound);
         audio.play();
     }
 
     useEffect(() => {
-        createSnake();
         document.addEventListener('keydown', changeSnakeDirection, false);
         return () => document.removeEventListener('keydown', changeSnakeDirection, false);
-    }, [])
+    }, [snakeDirection])
 
+    useEffect(()=>{
+        createSnake();
+    },[])
     useMoveSnake(moveSnake, 200)
 
     return (

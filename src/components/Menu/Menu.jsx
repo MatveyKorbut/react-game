@@ -19,7 +19,7 @@ const Menu = ({setPlay, gameOver, setGameOver, setSettings}) => {
                 gameOver ?
                     <>
                         <div
-                            style={{margin: '10px 0'}}
+                            style={{margin: '10px 0', fontSize: '24px'}}
                         >
                             Game Over
                         </div>
