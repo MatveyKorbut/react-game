@@ -1,24 +1,44 @@
 .board {
-    width: 500px;
-    height: 500px;
+    width: 315px;
+    padding-left: 15px;
+    height: 600px;
     margin: auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    border-right: 5px solid black;
+
 }
 .board-item {
     outline: 1px solid grey;
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .snake {
-    background-color: red;
+    background-color: gray;
+    box-shadow: inset 0px 0px 20px rgba(0,0,0,0.9);
 }
 
 .snake-head {
     background-color: #000;
+}
+
+.tetris {
+    width: 500px;
+    margin: 0 auto;
+    display: flex;
+    margin-top: 10vH;
+}
+
+.score-board {
+    font-family: 'GameBoy';
+    width: 200px;
+    padding-right: 15px;
+    margin: 0 auto;
+    margin-top: 10%;
+
 }
