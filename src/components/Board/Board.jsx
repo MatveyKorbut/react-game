@@ -1,9 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
 import './style.css';
 import {
-    allowDirection,
     checkForDuplicates,
-    createBordArray, getCenterOfBoard, getFood, getRandomBoardPosition,
+    createBordArray, getCenterOfBoard, getFood, getRandomBoardPosition, getStats,
 } from '../../controllers/utils';
 
 
@@ -11,14 +10,30 @@ import eatSound from '../../assets/sounds/SFX_Jump_12.wav';
 import loseSound from '../../assets/sounds/lose.wav';
 
 
-const Board = ({score, setScore, setLength, start, setGameOver, foodType}) => {
+const Board = ({
+                   score,
+                   setScore,
+                   setLength,
+                   start,
+                   setGameOver,
+                   foodType,
+                   difficulty,
+                   highScore,
+                   setHighScore,
+                   headColor,
+                   allowSound
+               }) => {
 
     const boardSize = {x: 10, y: 20};
-    const [board, setBoard] = useState(createBordArray(boardSize));
-    const [snake, setSnake] = useState([{...getCenterOfBoard(boardSize), isHead: true}]);
-    const [snakeDirection, setSnakeDirection] = useState('');
+    const [board, setBoard] = useState(getStats().board || createBordArray(boardSize));
+    const [snake, setSnake] = useState(getStats().snake || [{...getCenterOfBoard(boardSize), isHead: true}]);
+    const [snakeDirection, setSnakeDirection] = useState(getStats().snakeDirection || '');
 
-    const [test,setTest] = useState();
+
+    const savedScore = getStats().score || 0;
+    if (savedScore) {
+        setScore(savedScore);
+    }
 
     const [play, setPlay] = useState(start);
 
@@ -52,7 +67,7 @@ const Board = ({score, setScore, setLength, start, setGameOver, foodType}) => {
 
 
         if (checkForDuplicates(snake)) {
-            console.log("GAME OVER");
+            window.localStorage.setItem('stats', JSON.stringify({}));
             setPlay(false);
             setGameOver(true);
             playSound(false);
@@ -88,10 +103,15 @@ const Board = ({score, setScore, setLength, start, setGameOver, foodType}) => {
 
         if (snake[0].x === food.x && snake[0].y === food.y) { //eat
             setScore(Math.round(newSnake.length * 0.4 + newSnake.length));
+            if (score >= highScore) {
+                setHighScore(Math.round(newSnake.length * 0.4 + newSnake.length));
+            }
             playSound(true);
             setFood({
                 ...getRandomBoardPosition(snake, boardSize), picture: getFood(foodType)
             })
+
+
         } else {
             newSnake.pop();
         }
@@ -120,9 +140,9 @@ const Board = ({score, setScore, setLength, start, setGameOver, foodType}) => {
 
 
     const changeSnakeDirection = (e) => {
-        console.log('snakeDirection ',snakeDirection)
         const {keyCode} = e;
         if (keyCode) {
+            console.log('', keyCode);
             switch (keyCode) {
                 case 87: {
                     if (snakeDirection !== 'down') {
@@ -156,16 +176,32 @@ const Board = ({score, setScore, setLength, start, setGameOver, foodType}) => {
                 }
                 default:
                     break;
+
+                case 88: {
+                    onbeforeunloadFn();
+                    setGameOver(true);
+                    setPlay(false);
+                    break;
+                }
+                case 80: {
+                    setPlay(false);
+                    break;
+                }
+                case 82: {
+                    setPlay(true);
+                    break;
+                }
             }
         }
-        console.log('snakeDirection ',snakeDirection)
 
     }
 
 
     const playSound = (bool) => {
-        const audio = new Audio(bool ? eatSound : loseSound);
-        audio.play();
+        if (allowSound) {
+            const audio = new Audio(bool ? eatSound : loseSound);
+            audio.play();
+        }
     }
 
     useEffect(() => {
@@ -173,10 +209,36 @@ const Board = ({score, setScore, setLength, start, setGameOver, foodType}) => {
         return () => document.removeEventListener('keydown', changeSnakeDirection, false);
     }, [snakeDirection])
 
-    useEffect(()=>{
+
+    useEffect(() => {
         createSnake();
-    },[])
-    useMoveSnake(moveSnake, 200)
+        return () => {
+            setScore(0);
+        }
+    }, [])
+
+    const onbeforeunloadFn = () => {
+        const stats = {
+            score,
+            highScore,
+            board,
+            snake,
+            snakeDirection
+        }
+        window.localStorage.setItem('stats', JSON.stringify(stats));
+    }
+
+    useEffect(() => {
+        window.addEventListener('beforeunload', onbeforeunloadFn);
+        return () => {
+            window.removeEventListener('beforeunload', onbeforeunloadFn);
+        }
+    }, [score, highScore, board, snake])
+
+
+    useMoveSnake(moveSnake, difficulty)
+
+    const headClass = headColor === 'black' ? 'head-black' : (headColor === 'red' ? 'head-red' : 'head-green')
 
     return (
         <div>
@@ -187,7 +249,7 @@ const Board = ({score, setScore, setLength, start, setGameOver, foodType}) => {
                             {row.map((cell, cdx) => (
                                     <div
                                         key={idx + cdx}
-                                        className={`board-item ${cell.isSnake ? 'snake' : ""} ${cell.isHead ? 'snake-head' : ""}`}
+                                        className={`board-item ${cell.isSnake ? 'snake' : ""} ${cell.isHead ? headClass : ""}`}
                                     >
                                         {cell.isFood ? cell.foodPicture || "" : ""}
 

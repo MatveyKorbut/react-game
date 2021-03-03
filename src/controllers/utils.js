@@ -67,3 +67,12 @@ export const allowDirection = (currentDirection, newDirection) => {
     }
     return allow
 }
+
+export const getSettings = () =>{
+    const settings = window.localStorage.getItem('settings');
+    return JSON.parse(settings)
+}
+export const getStats = () =>{
+    const stats = window.localStorage.getItem('stats');
+    return JSON.parse(stats) || {}
+}

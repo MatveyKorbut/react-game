@@ -28,6 +28,7 @@ const Menu = ({setPlay, gameOver, setGameOver, setSettings}) => {
             }
             <div
                 style={{cursor: 'pointer', marginTop: '10px'}}
+                className={'menu-item'}
                 onClick={() => {
                     setPlay(true);
                     setGameOver(false);
@@ -37,6 +38,8 @@ const Menu = ({setPlay, gameOver, setGameOver, setSettings}) => {
             </div>
             <div
                 style={{cursor: 'pointer', marginTop: '10px'}}
+                className={'menu-item'}
+
                 onClick={() => {
                     setSettings(true);
                 }}

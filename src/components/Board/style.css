@@ -27,6 +27,18 @@
     background-color: #000;
 }
 
+.head-black {
+    background-color: #000;
+}
+.head-red {
+    background-color: red;
+}
+
+.head-green {
+    background-color: green;
+}
+
+
 .tetris {
     width: 500px;
     height: 600px;
@@ -44,7 +56,7 @@
     padding-right: 15px;
     margin: 0 auto;
     margin-top: 10%;
-
+    padding-left: 3px;
 }
 
 .menu {
@@ -59,6 +71,10 @@
 .menu img {
     width: 50px;
     height: 50px;
+}
+
+.menu-item:hover {
+    color:gray;
 }
 
 
