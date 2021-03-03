@@ -70,6 +70,7 @@ const Board = ({
             window.localStorage.setItem('stats', JSON.stringify({}));
             setPlay(false);
             setGameOver(true);
+            setScore(0);
             playSound(false);
         }
 
@@ -212,9 +213,6 @@ const Board = ({
 
     useEffect(() => {
         createSnake();
-        return () => {
-            setScore(0);
-        }
     }, [])
 
     const onbeforeunloadFn = () => {

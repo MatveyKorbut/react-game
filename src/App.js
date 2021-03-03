@@ -6,6 +6,7 @@ import Score from './components/Score/Score';
 import Menu from './components/Menu/Menu';
 import Settings from './components/Settings/Settings';
 import {getSettings, getStats} from './controllers/utils';
+import RSLogo from './assets/rs_school_js.svg'
 
 function App() {
 
@@ -75,6 +76,15 @@ function App() {
                     />
                 }
             </div>
+
+
+            <footer style={{position: 'absolute', bottom: 0, margin: '0 auto', width: '100%'}}>
+                <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                    <img src={RSLogo} width={'150px'}/>
+                    <a href="https://github.com/MatveyKorbut">MatveyKorbut</a>
+                    2021
+                </div>
+            </footer>
         </div>
     );
 }
