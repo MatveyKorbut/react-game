@@ -70,7 +70,7 @@ export const allowDirection = (currentDirection, newDirection) => {
 
 export const getSettings = () =>{
     const settings = window.localStorage.getItem('settings');
-    return JSON.parse(settings)
+    return JSON.parse(settings) || {}
 }
 export const getStats = () =>{
     const stats = window.localStorage.getItem('stats');
