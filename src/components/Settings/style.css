@@ -1,0 +1,19 @@
+input[type=radio] {
+    border: 1px solid #000000;
+    padding: 0.5em;
+    -webkit-appearance: none;
+}
+
+input[type=radio]:checked {
+    background: url('../../assets/black.png') no-repeat center center;
+    background-size: 9px 9px;
+}
+
+input[type=radio]:focus {
+    outline-color: transparent;
+}
+
+ul {
+    list-style-type: none;
+    text-align: left;
+}
